@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Estore — iPhone Pilihanmu</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--ink: #111111;
+			--muted: #666666;
+			--paper: #f7f8f5;
+			--card: #ffffff;
+			--line: #e3e8e5;
+			--green: #222222;
+			--green-deep: #000000;
+			--lime: #e5e5e5;
+			--orange: #777777;
+			--shadow: 0 20px 50px rgba(19, 44, 37, 0.08);
+		}
+
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: var(--paper);
+			font-family: "DM Sans", sans-serif;
+		}
+
+		button, input, select { font: inherit; }
+		button { cursor: pointer; }
+		.shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+		header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			min-height: 82px;
+			border-bottom: 1px solid var(--line);
+		}
+
+		.brand { display: flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; }
+		.brand-mark {
+			display: grid;
+			place-items: center;
+			width: 34px;
+			height: 34px;
+			border-radius: 10px;
+			color: white;
+			background: var(--green);
+			font-family: "Space Grotesk", sans-serif;
+			font-weight: 700;
+		}
+		.brand-mark img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+		.brand-name { font-family: "Space Grotesk", sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.04em; }
+		nav { display: flex; gap: 28px; }
+		nav a { color: var(--muted); font-size: 0.9rem; text-decoration: none; }
+		nav a:hover { color: var(--green); }
+		.header-actions { display: flex; align-items: center; gap: 10px; }
+		.admin-button { padding: 10px 14px; border: 1px solid var(--line); border-radius: 99px; color: var(--ink); background: white; font-size: 0.85rem; font-weight: 700; }
+		.admin-button:hover { border-color: var(--green); color: var(--green-deep); }
+		.cart-button {
+			display: inline-flex;
+			align-items: center;
+			gap: 9px;
+			padding: 10px 15px;
+			border: 1px solid var(--line);
+			border-radius: 99px;
+			color: var(--ink);
+			background: white;
+			font-weight: 600;
+		}
+		.cart-button:hover { border-color: var(--green); }
+		.cart-count { display: grid; place-items: center; min-width: 20px; height: 20px; border-radius: 50%; color: white; background: var(--orange); font-size: 0.72rem; }
+
+		.hero {
+			display: grid;
+			grid-template-columns: 1fr 0.8fr;
+			gap: 30px;
+			align-items: center;
+			min-height: 430px;
+			padding: 64px 0 70px;
+		}
+		.eyebrow { margin: 0 0 18px; color: var(--green); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+		h1 { max-width: 650px; margin: 0; font-family: "Space Grotesk", sans-serif; font-size: clamp(3.5rem, 8vw, 7.2rem); letter-spacing: -0.08em; line-height: 0.88; }
+		h1 span { color: var(--green); }
+		.hero-copy > p:not(.eyebrow) { max-width: 510px; margin: 28px 0 0; color: var(--muted); font-size: 1.05rem; line-height: 1.7; }
+		.hero-art { position: relative; min-height: 300px; display: grid; place-items: center; }
+		.hero-art::before { content: ""; position: absolute; width: 285px; height: 285px; border-radius: 50%; background: var(--lime); }
+		.phone {
+			position: relative;
+			z-index: 1;
+			width: 145px;
+			height: 280px;
+			border: 7px solid #1b2426;
+			border-radius: 27px;
+			background: linear-gradient(145deg, #a4c5d1, #e7f0f0 48%, #7ba8b2);
+			box-shadow: 22px 28px 0 rgba(29, 103, 85, 0.2), var(--shadow);
+			transform: rotate(13deg);
+		}
+		.phone::before { content: ""; position: absolute; top: 9px; left: 50%; width: 48px; height: 13px; border-radius: 99px; background: #1b2426; transform: translateX(-50%); }
+		.phone::after { content: ""; position: absolute; left: 18px; top: 30px; width: 29px; height: 29px; border: 5px solid #222b2d; border-radius: 11px; box-shadow: 0 32px 0 -7px #222b2d, 32px 0 0 -7px #222b2d; }
+		.art-label { position: absolute; right: 0; bottom: 23px; padding: 10px 14px; border-radius: 8px; color: var(--green-deep); background: white; box-shadow: var(--shadow); font-size: 0.8rem; font-weight: 700; transform: rotate(-5deg); }
+
+		.catalog-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; padding: 12px 0 22px; border-bottom: 1px solid var(--line); }
+		.catalog-head h2 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 2rem; letter-spacing: -0.06em; }
+		.catalog-head p { margin: 7px 0 0; color: var(--muted); font-size: 0.9rem; }
+		.controls { display: flex; gap: 10px; align-items: center; }
+		.search { width: 210px; padding: 11px 14px; border: 1px solid var(--line); border-radius: 8px; outline: none; background: white; }
+		.search:focus { border-color: var(--green); }
+		select { padding: 11px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: white; outline: none; }
+
+		.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; padding: 26px 0 76px; }
+		.product { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--card); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+		.product:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+		.product-image { position: relative; display: grid; place-items: center; height: 235px; background: #eef3ef; }
+		.product-image.blue { background: #e5eff2; }
+		.product-image.pink { background: #f7e8e5; }
+		.product-image.black { background: #e5e8e5; }
+		.product-image.gold { background: #f5eee0; }
+		.product-image .mini-phone { width: 93px; height: 178px; border: 6px solid #20282a; border-radius: 21px; background: var(--phone-color, #a5c8d2); box-shadow: 13px 15px 0 rgba(22, 47, 40, 0.15); transform: rotate(-10deg); }
+		.product-image .mini-phone::before { content: ""; display: block; width: 34px; height: 11px; margin: 7px auto 0; border-radius: 99px; background: #20282a; }
+		.badge { position: absolute; top: 15px; left: 15px; padding: 6px 9px; border-radius: 5px; color: var(--green-deep); background: var(--lime); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+		.product-info { padding: 19px; }
+		.product-top { display: flex; justify-content: space-between; gap: 12px; }
+		.product h3 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 1.2rem; letter-spacing: -0.04em; }
+		.rating { color: #555555; font-size: 0.8rem; white-space: nowrap; }
+		.spec { margin: 9px 0 18px; color: var(--muted); font-size: 0.82rem; }
+		.price-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+		.price { color: var(--green-deep); font-size: 1.05rem; font-weight: 700; }
+		.add { display: inline-flex; align-items: center; gap: 6px; padding: 9px 11px; border: 0; border-radius: 7px; color: white; background: var(--green); font-size: 0.78rem; font-weight: 700; }
+		.add:hover { background: var(--green-deep); }
+		.empty { grid-column: 1 / -1; padding: 50px; color: var(--muted); text-align: center; }
+		.stock-page { padding: 18px 0 76px; }
+		.admin-page { display: none; }
+		.admin-page.visible { display: block; }
+		.add-product { margin: 24px 0; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+		.add-product h3 { margin: 0 0 5px; font-family: "Space Grotesk", sans-serif; font-size: 1.25rem; letter-spacing: -0.04em; }
+		.add-product-intro { margin: 0 0 18px; color: var(--muted); font-size: 0.84rem; }
+		.product-form { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr auto; align-items: end; gap: 12px; }
+		.form-field label { display: block; margin-bottom: 7px; color: var(--muted); font-size: 0.73rem; font-weight: 700; }
+		.form-field input, .form-field select { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 7px; outline: none; background: white; }
+		.form-field input:focus, .form-field select:focus { border-color: var(--green); }
+		.photo-field input { padding: 8px; font-size: 0.74rem; }
+		.photo-field input[type="file"] { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+		.upload-button { display: inline-flex; align-items: center; gap: 7px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 7px; color: var(--green-deep); background: #f6faf5; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+		.upload-button:hover { border-color: var(--green); background: var(--lime); }
+		.file-name { display: block; max-width: 170px; margin-top: 7px; overflow: hidden; color: var(--muted); font-size: 0.7rem; text-overflow: ellipsis; white-space: nowrap; }
+		.photo-preview { display: none; width: 42px; height: 42px; margin-top: 7px; border-radius: 6px; object-fit: cover; }
+		.photo-preview.visible { display: block; }
+		.add-product-button { padding: 11px 14px; border: 0; border-radius: 7px; color: white; background: var(--green); font-size: 0.8rem; font-weight: 700; }
+		.add-product-button:hover { background: var(--green-deep); }
+		.logo-settings { margin: 24px 0; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+		.logo-settings h3 { margin: 0 0 5px; font-family: "Space Grotesk", sans-serif; font-size: 1.25rem; letter-spacing: -0.04em; }
+		.logo-settings p { margin: 0 0 17px; color: var(--muted); font-size: 0.84rem; }
+		.logo-upload-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+		.logo-preview { display: grid; place-items: center; width: 58px; height: 58px; overflow: hidden; border-radius: 14px; color: white; background: var(--green); font-family: "Space Grotesk", sans-serif; font-size: 1.3rem; font-weight: 700; }
+		.logo-preview img { width: 100%; height: 100%; object-fit: cover; }
+		.logo-upload-row .upload-button { margin: 0; }
+		#logoInput { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+		.logo-file-name { color: var(--muted); font-size: 0.78rem; }
+		.remove-logo { padding: 9px 12px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); background: white; font-size: 0.78rem; font-weight: 700; }
+		.remove-logo:hover { border-color: var(--green); }
+		.product-image.has-photo { background: #eef3ef; }
+		.product-image .unit-photo { width: 100%; height: 100%; object-fit: cover; }
+		.add:disabled { cursor: not-allowed; opacity: 0.5; }
+		.stock-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+		.stock-head h2 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 2rem; letter-spacing: -0.06em; }
+		.stock-head p { margin: 7px 0 0; color: var(--muted); font-size: 0.9rem; }
+		.stock-summary { padding: 12px 14px; border-radius: 8px; color: var(--green-deep); background: var(--lime); font-size: 0.82rem; font-weight: 700; }
+		.stock-list { margin-top: 20px; border: 1px solid var(--line); border-radius: 12px; background: white; overflow: hidden; }
+		.stock-row { display: grid; grid-template-columns: minmax(220px, 1.5fr) minmax(170px, 1fr) 150px 140px; align-items: center; gap: 20px; padding: 18px 22px; border-bottom: 1px solid var(--line); }
+		.stock-row:last-child { border-bottom: 0; }
+		.stock-product strong { display: block; font-family: "Space Grotesk", sans-serif; }
+		.stock-product small { display: block; margin-top: 5px; color: var(--muted); }
+		.stock-status { display: inline-flex; align-items: center; gap: 7px; color: var(--green); font-size: 0.82rem; font-weight: 700; }
+		.stock-status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+		.stock-status.low { color: var(--orange); }
+		.stock-status.empty { color: #555555; }
+		.unit-control { display: flex; align-items: center; gap: 8px; }
+		.unit-button { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 7px; color: var(--green-deep); background: white; font-size: 1.05rem; }
+		.unit-button:hover { border-color: var(--green); background: #f3f8f2; }
+		.stock-actions { display: flex; align-items: center; gap: 8px; }
+		.delete-stock { padding: 9px 12px; border: 1px solid #e7c9c2; border-radius: 7px; color: #c7584d; background: white; font-size: 0.78rem; font-weight: 700; }
+		.delete-stock:hover { border-color: #c7584d; background: #fff7f5; }
+		.unit-input { width: 55px; padding: 6px 4px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); text-align: center; font-weight: 700; }
+		.unit-input:focus { border-color: var(--green); outline: none; }
+		.save-stock { padding: 9px 12px; border: 0; border-radius: 7px; color: white; background: var(--green); font-size: 0.78rem; font-weight: 700; }
+		.save-stock:hover { background: var(--green-deep); }
+		.admin-login { position: fixed; z-index: 6; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(15, 29, 25, 0.45); opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
+		.admin-login.open { opacity: 1; pointer-events: auto; }
+		.login-card { width: min(390px, 100%); padding: 30px; border-radius: 12px; background: white; box-shadow: var(--shadow); }
+		.login-card h2 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 1.8rem; letter-spacing: -0.06em; }
+		.login-card p { margin: 9px 0 22px; color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+		.login-label { display: block; margin-bottom: 7px; font-size: 0.8rem; font-weight: 700; }
+		.login-input { width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 7px; outline: none; }
+		.login-input:focus { border-color: var(--green); }
+		.login-actions { display: flex; justify-content: end; gap: 9px; margin-top: 20px; }
+		.login-cancel { padding: 10px 13px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); background: white; }
+		.login-submit { padding: 10px 15px; border: 0; border-radius: 7px; color: white; background: var(--green); font-weight: 700; }
+		.login-error { min-height: 18px; margin: 9px 0 0 !important; color: #c7584d !important; font-size: 0.78rem !important; }
+		.admin-tools { display: flex; align-items: center; gap: 12px; }
+		.admin-user { color: var(--muted); font-size: 0.82rem; }
+		.logout { padding: 9px 12px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); background: white; font-size: 0.78rem; font-weight: 700; }
+		.save-stock.saved { background: var(--orange); }
+
+		.cart-drawer { position: fixed; z-index: 4; top: 0; right: 0; display: flex; flex-direction: column; width: min(390px, 100%); height: 100vh; padding: 26px; background: white; box-shadow: -20px 0 50px rgba(20, 40, 31, 0.15); transform: translateX(105%); transition: transform 0.3s ease; }
+		.cart-drawer.open { transform: translateX(0); }
+		.cart-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+		.cart-head h2 { margin: 0; font-family: "Space Grotesk", sans-serif; }
+		.close { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; background: white; }
+		.cart-items { flex: 1; overflow: auto; padding: 20px 0; }
+		.cart-item { display: flex; justify-content: space-between; gap: 15px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+		.cart-item strong { display: block; margin-bottom: 4px; }
+		.cart-item small { color: var(--muted); }
+		.remove { border: 0; color: var(--coral, #d46750); background: none; font-size: 0.75rem; }
+		.cart-total { display: flex; justify-content: space-between; padding: 18px 0; border-top: 1px solid var(--line); font-weight: 700; }
+		.checkout { padding: 14px; border: 0; border-radius: 8px; color: white; background: var(--green); font-weight: 700; }
+		.checkout:disabled { cursor: not-allowed; opacity: 0.45; }
+		.backdrop { position: fixed; z-index: 3; inset: 0; background: rgba(15, 29, 25, 0.3); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+		.backdrop.open { opacity: 1; pointer-events: auto; }
+
+		@media (max-width: 800px) {
+			.shell { width: min(100% - 28px, 570px); }
+			nav { display: none; }
+			.hero { grid-template-columns: 1fr; padding: 54px 0 40px; }
+			.hero-art { min-height: 260px; }
+			.hero-art::before { width: 235px; height: 235px; }
+			.catalog-head { align-items: stretch; flex-direction: column; }
+			.controls { flex-direction: column; align-items: stretch; }
+			.search { width: 100%; }
+			.products { grid-template-columns: 1fr 1fr; gap: 12px; }
+			.product-image { height: 190px; }
+			.product-info { padding: 14px; }
+			.product h3 { font-size: 1rem; }
+			.rating { display: none; }
+			.price-row { align-items: stretch; flex-direction: column; }
+			.add { justify-content: center; }
+			.stock-head { align-items: stretch; flex-direction: column; }
+			.stock-row { grid-template-columns: 1fr auto; gap: 13px; padding: 17px; }
+			.stock-status { grid-column: 1; }
+			.unit-control { grid-column: 2; grid-row: 1 / span 2; }
+			.stock-actions { grid-column: 1 / -1; }
+			.product-form { grid-template-columns: 1fr 1fr; }
+			.product-form .form-field:first-child, .product-form .photo-field { grid-column: 1 / -1; }
+			.add-product-button { grid-column: 1 / -1; }
+		}
+		@media (max-width: 430px) { .products { grid-template-columns: 1fr; } .product-image { height: 220px; } h1 { font-size: 4.2rem; } }
+	</style>
+</head>
+<body>
+	<header class="shell">
+		<a class="brand" href="#top" aria-label="Estore beranda"><span class="brand-mark">E</span><span class="brand-name">Estore</span></a>
+		<nav><a href="#katalog">Katalog</a><a href="#tentang">Tentang Estore</a></nav>
+		<div class="header-actions"><button class="admin-button" id="adminLink" type="button">Masuk Admin</button><button class="cart-button" id="cartButton" type="button" aria-label="Buka keranjang">Bag <span class="cart-count" id="cartCount">0</span></button></div>
+	</header>
+
+	<main id="top" class="shell">
+		<section class="hero">
+			<div class="hero-copy">
+				<p class="eyebrow">Koleksi iPhone pilihan</p>
+				<h1>Teknologi yang terasa <span>personal.</span></h1>
+				<p>Temukan iPhone yang pas untuk ritme harianmu. Produk resmi, kondisi terjamin, dan siap menemani lebih banyak cerita.</p>
+			</div>
+			<div class="hero-art" aria-label="Ilustrasi iPhone terbaru">
+				<div class="phone"></div>
+				<div class="art-label">iPhone untuk harimu</div>
+			</div>
+		</section>
+
+		<section id="katalog">
+			<div class="catalog-head">
+				<div><h2>Yang tersedia</h2><p id="resultText">6 produk iPhone siap dikirim</p></div>
+				<div class="controls"><input class="search" id="search" type="search" placeholder="Cari iPhone..." aria-label="Cari produk"><select id="filter" aria-label="Filter seri"><option value="all">Semua seri</option><option value="Pro Max">Seri Pro Max</option><option value="Pro">Seri Pro</option><option value="Plus">Seri Plus</option><option value="Standar">Seri standar</option></select></div>
+			</div>
+			<div class="products" id="products"></div>
+		</section>
+
+		<section id="stok" class="stock-page admin-page">
+			<div class="stock-head">
+				<div><h2>Atur unit tersedia</h2><p>Kelola jumlah stok iPhone yang tampil di katalog Estore.</p></div>
+				<div class="admin-tools"><span class="admin-user">Anda masuk sebagai admin</span><button class="logout" id="logout" type="button">Keluar dari panel</button><div class="stock-summary" id="stockSummary">0 unit tersedia</div></div>
+			</div>
+			<div class="logo-settings">
+				<h3>Atur logo Estore</h3>
+				<p>Upload logo baru untuk mengganti logo Estore pada bagian atas halaman. Perubahan admin tersimpan otomatis.</p>
+				<div class="logo-upload-row">
+					<div class="logo-preview" id="logoPreview">E</div>
+					<label class="upload-button" for="logoInput"><span aria-hidden="true">&#8593;</span> Upload logo</label>
+					<input id="logoInput" type="file" accept="image/*" aria-label="Upload logo Estore">
+					<span class="logo-file-name" id="logoFileName">Logo bawaan Estore</span>
+					<button class="remove-logo" id="removeLogo" type="button">Kembalikan logo bawaan</button>
+				</div>
+			</div>
+			<form class="add-product" id="addProductForm">
+				<h3>Tambah unit baru</h3>
+				<p class="add-product-intro">Tambahkan nama dan foto unit. Produk baru langsung muncul di katalog.</p>
+				<div class="product-form">
+					<div class="form-field"><label for="newName">Nama unit</label><select id="newName" required><option value="" selected disabled>Pilih nama iPhone</option><option>iPhone 16</option><option>iPhone 16 Plus</option><option>iPhone 16 Pro</option><option>iPhone 16 Pro Max</option><option>iPhone 15</option><option>iPhone 15 Plus</option><option>iPhone 15 Pro</option><option>iPhone 15 Pro Max</option><option>iPhone 14</option><option>iPhone 14 Plus</option><option>iPhone 14 Pro</option><option>iPhone 14 Pro Max</option></select></div>
+					<div class="form-field"><label for="newSpec">Spesifikasi</label><input id="newSpec" type="text" placeholder="256GB · Titanium" required></div>
+					<div class="form-field"><label for="newPrice">Harga</label><input id="newPrice" type="number" min="0" placeholder="19999000" required></div>
+					<div class="form-field"><label for="newStock">Jumlah unit</label><input id="newStock" type="number" min="0" value="1" required></div>
+					<div class="form-field"><label for="newSeries">Seri</label><select id="newSeries"><option value="Standar">Standar</option><option value="Plus">Plus</option><option value="Pro">Pro</option><option value="Pro Max">Pro Max</option></select></div>
+					<div class="form-field photo-field"><label for="newPhoto">Foto unit</label><label class="upload-button" for="newPhoto"><span aria-hidden="true">&#8593;</span> Upload foto</label><input id="newPhoto" type="file" accept="image/*"><span class="file-name" id="fileName">Belum ada foto dipilih</span><img class="photo-preview" id="photoPreview" alt="Preview foto unit"></div>
+					<button class="add-product-button" type="submit">Tambah unit</button>
+				</div>
+			</form>
+			<div class="stock-list" id="stockList"></div>
+		</section>
+
+		<section id="tentang" style="padding: 0 0 45px; color: var(--muted); font-size: .86rem;">Estore memilihkan perangkat yang siap dipakai, dengan layanan yang jujur dan sederhana.</section>
+	</main>
+
+	<div class="backdrop" id="backdrop"></div>
+	<aside class="cart-drawer" id="cartDrawer" aria-label="Keranjang belanja">
+		<div class="cart-head"><h2>Keranjangmu</h2><button class="close" id="closeCart" type="button" aria-label="Tutup keranjang">&times;</button></div>
+		<div class="cart-items" id="cartItems"><p style="color: var(--muted);">Keranjang masih kosong.</p></div>
+		<div class="cart-total"><span>Total</span><span id="cartTotal">Rp0</span></div>
+		<button class="checkout" id="checkout" type="button" disabled>Lanjut ke pembayaran</button>
+	</aside>
+
+	<div class="admin-login" id="adminLogin" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+		<form class="login-card" id="loginForm">
+			<h2 id="loginTitle">Masuk ke Panel Admin</h2>
+			<p>Gunakan password admin untuk mengelola stok, logo, dan produk iPhone di Estore.</p>
+			<label class="login-label" for="adminPassword">Masukkan password admin</label>
+			<input class="login-input" id="adminPassword" type="password" autocomplete="current-password" required>
+			<p class="login-error" id="loginError" aria-live="polite"></p>
+			<div class="login-actions"><button class="login-cancel" id="cancelLogin" type="button">Batal</button><button class="login-submit" type="submit">Masuk</button></div>
+		</form>
+	</div>
+
+	<script>
+		const defaultProducts = [
+			{ id: 1, name: "iPhone 15", spec: "128GB · Black", price: 11999000, series: "Standar", color: "#222b2d", image: "black", badge: "Favorit", stock: 12 },
+			{ id: 2, name: "iPhone 15 Plus", spec: "128GB · Blue", price: 13999000, series: "Plus", color: "#9bc2d0", image: "blue", badge: "Layar besar", stock: 7 },
+			{ id: 3, name: "iPhone 15 Pro", spec: "256GB · Natural Titanium", price: 18999000, series: "Pro", color: "#aaaba6", image: "gold", badge: "Pro power", stock: 4 },
+			{ id: 4, name: "iPhone 15 Pro Max", spec: "256GB · Blue Titanium", price: 21999000, series: "Pro Max", color: "#6d8790", image: "blue", badge: "Terlaris", stock: 2 },
+			{ id: 5, name: "iPhone 14", spec: "128GB · Starlight", price: 9999000, series: "Standar", color: "#e5d8c1", image: "gold", badge: "Harga baru", stock: 0 },
+			{ id: 6, name: "iPhone 14 Plus", spec: "128GB · Pink", price: 11999000, series: "Plus", color: "#e6a9ad", image: "pink", badge: "Ready stock", stock: 9 }
+		];
+		const productsStorageKey = "estore-products-v1";
+		const logoStorageKey = "estore-logo-v1";
+		let products = loadProducts();
+		const cart = [];
+		const productList = document.getElementById("products");
+		const search = document.getElementById("search");
+		const filter = document.getElementById("filter");
+		const cartDrawer = document.getElementById("cartDrawer");
+		const backdrop = document.getElementById("backdrop");
+		const adminPage = document.getElementById("stok");
+		const adminLogin = document.getElementById("adminLogin");
+		const adminPassword = document.getElementById("adminPassword");
+		const loginError = document.getElementById("loginError");
+		const adminPasswordValue = "estoreadmin";
+
+		const formatPrice = (price) => `Rp${price.toLocaleString("id-ID")}`;
+
+		function loadProducts() {
+			try {
+				const savedProducts = JSON.parse(localStorage.getItem(productsStorageKey));
+				return Array.isArray(savedProducts) ? savedProducts : structuredClone(defaultProducts);
+			} catch (error) {
+				return structuredClone(defaultProducts);
+			}
+		}
+		function saveProducts() { localStorage.setItem(productsStorageKey, JSON.stringify(products)); }
+		function applySavedLogo() {
+			const savedLogo = localStorage.getItem(logoStorageKey);
+			if (!savedLogo) return;
+			document.getElementById("logoPreview").innerHTML = `<img src="${savedLogo}" alt="Logo Estore">`;
+			document.querySelector(".brand-mark").innerHTML = `<img src="${savedLogo}" alt="Logo Estore">`;
+			document.getElementById("logoFileName").textContent = "Logo tersimpan";
+		}
+
+		function renderProducts() {
+			const query = search.value.toLowerCase().trim();
+			const selected = filter.value;
+			const visible = products.filter((product) => (selected === "all" || product.series === selected) && product.name.toLowerCase().includes(query));
+			document.getElementById("resultText").textContent = `${visible.length} produk iPhone siap dikirim`;
+			productList.innerHTML = visible.length ? visible.map((product) => `
+				<article class="product">
+					<div class="product-image ${product.image} ${product.imageUrl ? "has-photo" : ""}"><span class="badge">${product.badge}</span>${product.imageUrl ? `<img class="unit-photo" src="${product.imageUrl}" alt="Foto ${product.name}">` : `<div class="mini-phone" style="--phone-color: ${product.color};"></div>`}</div>
+					<div class="product-info"><div class="product-top"><h3>${product.name}</h3><span class="rating">★ 4.9</span></div><p class="spec">${product.spec} · ${product.stock ? `${product.stock} unit` : "Habis"}</p><div class="price-row"><span class="price">${formatPrice(product.price)}</span><button class="add" type="button" data-id="${product.id}" ${product.stock === 0 ? "disabled" : ""}>${product.stock === 0 ? "Stok habis" : "+ Keranjang"}</button></div></div>
+				</article>`).join("") : `<div class="empty">Produk yang kamu cari belum tersedia.</div>`;
+			productList.querySelectorAll(".add:not(:disabled)").forEach((button) => button.addEventListener("click", () => addToCart(Number(button.dataset.id))));
+		}
+
+		function renderStock() {
+			const total = products.reduce((sum, product) => sum + product.stock, 0);
+			document.getElementById("stockSummary").textContent = `${total} unit tersedia`;
+			document.getElementById("stockList").innerHTML = products.map((product) => {
+				const status = product.stock === 0 ? "Habis" : product.stock <= 3 ? "Stok menipis" : "Tersedia";
+				const statusClass = product.stock === 0 ? "empty" : product.stock <= 3 ? "low" : "";
+				return `<div class="stock-row"><div class="stock-product"><strong>${product.name}</strong><small>${product.spec}${product.imageUrl ? " · Foto tersedia" : ""}</small></div><span class="stock-status ${statusClass}">${status}</span><div class="unit-control"><button class="unit-button" type="button" data-action="decrease" data-id="${product.id}" aria-label="Kurangi unit ${product.name}">−</button><input class="unit-input" type="number" min="0" value="${product.stock}" data-id="${product.id}" aria-label="Jumlah unit ${product.name}"><button class="unit-button" type="button" data-action="increase" data-id="${product.id}" aria-label="Tambah unit ${product.name}">+</button></div><div class="stock-actions"><button class="save-stock" type="button" data-id="${product.id}">Simpan</button><button class="delete-stock" type="button" data-id="${product.id}">Hapus stok</button></div></div>`;
+			}).join("");
+			document.querySelectorAll(".unit-button").forEach((button) => button.addEventListener("click", () => changeStock(Number(button.dataset.id), button.dataset.action === "increase" ? 1 : -1)));
+			document.querySelectorAll(".unit-input").forEach((input) => input.addEventListener("change", () => updateStock(Number(input.dataset.id), input.value)));
+			document.querySelectorAll(".save-stock").forEach((button) => button.addEventListener("click", () => { button.textContent = "Tersimpan"; button.classList.add("saved"); setTimeout(() => { button.textContent = "Simpan"; button.classList.remove("saved"); }, 1200); }));
+			document.querySelectorAll(".delete-stock").forEach((button) => button.addEventListener("click", () => deleteProduct(Number(button.dataset.id))));
+		}
+		function updateStock(id, value) { const product = products.find((item) => item.id === id); product.stock = Math.max(0, Math.floor(Number(value) || 0)); saveProducts(); renderProducts(); renderStock(); }
+		function changeStock(id, amount) { const product = products.find((item) => item.id === id); updateStock(id, product.stock + amount); }
+		function deleteProduct(id) { const product = products.find((item) => item.id === id); if (!product || !confirm(`Hapus ${product.name} dari katalog dan stok?`)) return; products = products.filter((item) => item.id !== id); for (let index = cart.length - 1; index >= 0; index -= 1) if (cart[index].id === id) cart.splice(index, 1); saveProducts(); renderProducts(); renderStock(); renderCart(); }
+		function addToCart(id) { const product = products.find((item) => item.id === id); if (!product || product.stock < 1) return; product.stock -= 1; saveProducts(); cart.push(product); renderProducts(); renderStock(); renderCart(); openCart(); }
+		function removeFromCart(index) { const product = cart[index]; if (product) product.stock += 1; cart.splice(index, 1); saveProducts(); renderProducts(); renderStock(); renderCart(); }
+		function renderCart() {
+			document.getElementById("cartCount").textContent = cart.length;
+			document.getElementById("cartItems").innerHTML = cart.length ? cart.map((product, index) => `<div class="cart-item"><div><strong>${product.name}</strong><small>${product.spec}</small></div><div><strong>${formatPrice(product.price)}</strong><button class="remove" data-index="${index}" type="button">Hapus</button></div></div>`).join("") : `<p style="color: var(--muted);">Keranjang masih kosong.</p>`;
+			document.getElementById("cartTotal").textContent = formatPrice(cart.reduce((total, product) => total + product.price, 0));
+			document.getElementById("checkout").disabled = cart.length === 0;
+			document.querySelectorAll(".remove").forEach((button) => button.addEventListener("click", () => removeFromCart(Number(button.dataset.index))));
+		}
+		function openCart() { cartDrawer.classList.add("open"); backdrop.classList.add("open"); }
+		function closeCart() { cartDrawer.classList.remove("open"); backdrop.classList.remove("open"); }
+		function openAdminLogin() { loginError.textContent = ""; adminPassword.value = ""; adminLogin.classList.add("open"); adminPassword.focus(); }
+		function closeAdminLogin() { adminLogin.classList.remove("open"); }
+		function showAdmin() { closeAdminLogin(); adminPage.classList.add("visible"); document.getElementById("adminLink").textContent = "Panel Admin"; document.getElementById("stok").scrollIntoView({ behavior: "smooth" }); }
+		function hideAdmin() { adminPage.classList.remove("visible"); document.getElementById("adminLink").textContent = "Masuk Admin"; window.scrollTo({ top: 0, behavior: "smooth" }); }
+
+		search.addEventListener("input", renderProducts);
+		filter.addEventListener("change", renderProducts);
+		document.getElementById("cartButton").addEventListener("click", openCart);
+		document.getElementById("closeCart").addEventListener("click", closeCart);
+		backdrop.addEventListener("click", closeCart);
+		document.getElementById("checkout").addEventListener("click", () => alert("Terima kasih! Tim Estore akan menghubungimu untuk proses pembayaran."));
+		document.getElementById("adminLink").addEventListener("click", (event) => { event.preventDefault(); adminPage.classList.contains("visible") ? document.getElementById("stok").scrollIntoView({ behavior: "smooth" }) : openAdminLogin(); });
+		document.getElementById("cancelLogin").addEventListener("click", closeAdminLogin);
+		document.getElementById("logout").addEventListener("click", hideAdmin);
+		document.getElementById("loginForm").addEventListener("submit", (event) => { event.preventDefault(); if (adminPassword.value === adminPasswordValue) showAdmin(); else loginError.textContent = "Password admin tidak sesuai."; });
+		document.getElementById("newPhoto").addEventListener("change", (event) => { const file = event.target.files[0]; const preview = document.getElementById("photoPreview"); const fileName = document.getElementById("fileName"); if (!file) { preview.removeAttribute("src"); preview.classList.remove("visible"); fileName.textContent = "Belum ada foto dipilih"; return; } fileName.textContent = file.name; const reader = new FileReader(); reader.addEventListener("load", () => { preview.src = reader.result; preview.classList.add("visible"); }); reader.readAsDataURL(file); });
+		document.getElementById("logoInput").addEventListener("change", (event) => { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.addEventListener("load", () => { localStorage.setItem(logoStorageKey, reader.result); document.getElementById("logoPreview").innerHTML = `<img src="${reader.result}" alt="Logo Estore">`; document.querySelector(".brand-mark").innerHTML = `<img src="${reader.result}" alt="Logo Estore">`; document.getElementById("logoFileName").textContent = file.name; }); reader.readAsDataURL(file); });
+		document.getElementById("removeLogo").addEventListener("click", () => { localStorage.removeItem(logoStorageKey); document.getElementById("logoPreview").textContent = "E"; document.querySelector(".brand-mark").textContent = "E"; document.getElementById("logoFileName").textContent = "Logo bawaan Estore"; document.getElementById("logoInput").value = ""; });
+		document.getElementById("addProductForm").addEventListener("submit", (event) => {
+			event.preventDefault();
+			const photo = document.getElementById("newPhoto").files[0];
+			const createProduct = (imageUrl = "") => {
+				products.push({
+					id: Date.now(),
+					name: document.getElementById("newName").value.trim(),
+					spec: document.getElementById("newSpec").value.trim(),
+					price: Math.max(0, Number(document.getElementById("newPrice").value) || 0),
+					series: document.getElementById("newSeries").value,
+					color: "#a9c8d0",
+					image: "blue",
+					badge: "Unit baru",
+					stock: Math.max(0, Math.floor(Number(document.getElementById("newStock").value) || 0)),
+					imageUrl
+				});
+				saveProducts();
+				event.target.reset();
+				document.getElementById("fileName").textContent = "Belum ada foto dipilih";
+				document.getElementById("photoPreview").classList.remove("visible");
+				renderProducts();
+				renderStock();
+			};
+			if (photo) {
+				const reader = new FileReader();
+				reader.addEventListener("load", () => createProduct(reader.result));
+				reader.readAsDataURL(photo);
+			} else createProduct();
+		});
+		window.addEventListener("storage", (event) => {
+			if (event.key === productsStorageKey) {
+				products = loadProducts();
+				renderProducts();
+				renderStock();
+			}
+			if (event.key === logoStorageKey) {
+				if (event.newValue) applySavedLogo();
+				else document.getElementById("removeLogo").click();
+			}
+		});
+		renderProducts();
+		renderStock();
+		applySavedLogo();
+	</script>
+</body>
+</html>
